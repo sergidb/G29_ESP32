@@ -1,6 +1,6 @@
-const int pinVN = 39;  // Pin de connexió per l'eix Y
-const int pinVP = 36;  // Pin de connexió per l'eix X
-const int pinD2 = 2;   // Pin de connexió per la senyal digital de marxa enrere
+const int pinVN = 39;  // X Axis pin
+const int pinVP = 36;  // Y Axis pin
+const int pinD2 = 2;   // Reverse gear pin
 
 void setup() {
   Serial.begin(9600);
@@ -8,55 +8,55 @@ void setup() {
 }
 
 void loop() {
-  int valorY = analogRead(pinVN);
-  int valorX = analogRead(pinVP);
-  int marxaEnrere = digitalRead(pinD2);
+  int yValue = analogRead(pinVN);
+  int xValue = analogRead(pinVP);
+  int reverseGear = digitalRead(pinD2);
 
-  // Valors X
-  // 1a: per sota de 1800
-  // 2a: per sota de 1800
-  // 3a: de 2000 a 3800
-  // 4a: de 2000 a 3800
-  // 5a: per sobre de 4000
-  // 6a: per sobre de 4000
+  // X Axis values
+  // 1a: below 1800
+  // 2a: below 1800
+  // 3a: between 2000 and 3800
+  // 4a: between 2000 and 3800
+  // 5a: above 4000
+  // 6a: above 4000
 
-  // Valors Y
-  // 1a: per sobre de 3500
-  // 2a: per sota de 1000
-  // 3a: per sobre de 3500
-  // 4a: per sota de 1000
-  // 5a: per sobre de 3500
-  // 6a: per sota de 1000
+  // Y Axis values
+  // 1a: above 3500
+  // 2a: below 1000
+  // 3a: above 3500
+  // 4a: below 1000
+  // 5a: above 3500
+  // 6a: below 1000
 
-  String marxaSeleccionada;
-  if (marxaEnrere == 1 && valorX > 4000 && valorY < 1000) {
-    marxaSeleccionada = "R";
-  } else if (valorX < 2000 && valorY > 3500) {
-    marxaSeleccionada = "1a";
-  } else if (valorX < 2000 && valorY < 1000) {
-    marxaSeleccionada = "2a";
-  } else if (valorX > 2100 && valorX < 3800 && valorY > 3500) {
-    marxaSeleccionada = "3a";
-  } else if (valorX > 2100 && valorX < 3800 && valorY < 1000) {
-    marxaSeleccionada = "4a";
-  } else if (valorX > 4000 && valorY > 3500) {
-    marxaSeleccionada = "5a";
-  } else if (valorX > 4000 && valorY < 1000) {
-    marxaSeleccionada = "6a";
-  } else if (valorY > 1000 && valorY < 3500) {
-    marxaSeleccionada = "N";
+  String selectedGear;
+  if (reverseGear == 1 && xValue > 4000 && yValue < 1000) {
+    selectedGear = "R";
+  } else if (xValue < 2000 && yValue > 3500) {
+    selectedGear = "1";
+  } else if (xValue < 2000 && yValue < 1000) {
+    selectedGear = "2";
+  } else if (xValue > 2100 && xValue < 3800 && yValue > 3500) {
+    selectedGear = "3";
+  } else if (xValue > 2100 && xValue < 3800 && yValue < 1000) {
+    selectedGear = "4";
+  } else if (xValue > 4000 && yValue > 3500) {
+    selectedGear = "5";
+  } else if (xValue > 4000 && yValue < 1000) {
+    selectedGear = "6";
+  } else if (yValue > 1000 && yValue < 3500) {
+    selectedGear = "N";
   } else {
-    marxaSeleccionada = "Desconeguda";
+    selectedGear = "Desconeguda";
   }
 
-  Serial.print("Eix Y: ");
-  Serial.print(valorY);
-  Serial.print("\tEix X: ");
-  Serial.print(valorX);
-  Serial.print("\tMarxa enrere: ");
-  Serial.print(marxaEnrere);
-  Serial.print("\tMarxa: ");
-  Serial.println(marxaSeleccionada);
+  Serial.print("Axis Y: ");
+  Serial.print(yValue);
+  Serial.print("\tAxis X: ");
+  Serial.print(xValue);
+  Serial.print("\tReverse gear: ");
+  Serial.print(reverseGear);
+  Serial.print("\tGear: ");
+  Serial.println(selectedGear);
 
-  delay(50); // Actualitza els valors cada 50ms
+  delay(50); // Update values every 50ms
 }
